@@ -1,0 +1,27 @@
+{
+  "name": "deepadata-adapters",
+  "version": "0.1.0",
+  "private": true,
+  "description": "EDM enrichment adapters for memory platforms",
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "build": "npm run build --workspaces",
+    "clean": "npm run clean --workspaces --if-present",
+    "typecheck": "npm run typecheck --workspaces --if-present"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/deepadata/deepadata-adapters.git"
+  },
+  "author": "DeepaData",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/deepadata/deepadata-adapters/issues"
+  },
+  "homepage": "https://github.com/deepadata/deepadata-adapters#readme",
+  "engines": {
+    "node": ">=18"
+  }
+}

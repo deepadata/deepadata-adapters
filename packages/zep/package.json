@@ -1,0 +1,60 @@
+{
+  "name": "deepadata-zep-adapter",
+  "version": "0.1.0",
+  "description": "EDM enrichment layer for Zep — structured salience data for temporal memory scoring",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "scripts": {
+    "build": "tsc",
+    "prepare": "npm run build",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "typecheck": "tsc --noEmit",
+    "clean": "rimraf dist"
+  },
+  "keywords": [
+    "zep",
+    "edm",
+    "emotional-data-model",
+    "deepadata",
+    "memory",
+    "ai-memory",
+    "enrichment",
+    "temporal-memory"
+  ],
+  "author": "DeepaData",
+  "license": "MIT",
+  "dependencies": {
+    "deepadata-edm-sdk": ">=0.6.0-alpha"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "rimraf": "^6.0.1",
+    "tsx": "^4.19.0",
+    "typescript": "^5.7.0",
+    "vitest": "^2.1.0"
+  },
+  "peerDependencies": {
+    "deepadata-ddna-tools": ">=0.2.0"
+  },
+  "peerDependenciesMeta": {
+    "deepadata-ddna-tools": {
+      "optional": true
+    }
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ]
+}
