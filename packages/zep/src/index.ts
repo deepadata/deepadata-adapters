@@ -12,8 +12,11 @@
  *   await zep.memory.add(sessionId, { messages })  // Zep unchanged
  */
 
-import type { EdmArtifact, EdmProfile } from "deepadata-edm-sdk";
+import type { EdmArtifact } from "deepadata-edm-sdk";
 import { extractFromContent } from "deepadata-edm-sdk";
+
+/** EDM profile: controls schema depth */
+export type EdmProfile = "core" | "extended" | "full";
 
 /**
  * Enrichment options
@@ -35,7 +38,7 @@ export interface EnrichmentOptions {
   jurisdiction?: "GDPR" | "CCPA" | "HIPAA" | "LGPD" | null;
 
   /** Consent basis */
-  consentBasis?: "consent" | "contract" | "legitimate_interest" | "legal_obligation" | "vital_interest" | "public_task" | "none";
+  consentBasis?: "consent" | "contract" | "legitimate_interest" | "none";
 
   /** Visibility level */
   visibility?: "private" | "shared" | "public";
@@ -146,4 +149,4 @@ export async function enrichWithEDM(
 }
 
 // Re-export useful types from SDK
-export type { EdmArtifact, EdmProfile } from "deepadata-edm-sdk";
+export type { EdmArtifact } from "deepadata-edm-sdk";

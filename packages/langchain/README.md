@@ -21,7 +21,7 @@ const input = "I'm feeling overwhelmed with the project deadline. Nothing seems 
 const output = "I understand that feeling. Let's break this down into smaller, manageable tasks.";
 
 // EDM enrichment (emotional context)
-const { edmArtifact } = await enrichWithEDM(input, { profile: 'core' });
+const { edmArtifact } = await enrichWithEDM(input, { profile: 'essential' });
 
 // LangChain memory (unchanged — LangChain does what LangChain does)
 await memory.saveContext({ input }, { output });
@@ -72,7 +72,7 @@ From the same text input, you now have:
 ```typescript
 const { edmArtifact, confidence, model, profile } = await enrichWithEDM(text, {
   // EDM profile (default: "core")
-  profile: "core",  // ~20 fields, lightweight for LangChain
+  profile: "essential",  // ~20 fields, lightweight for LangChain
 
   // LLM provider (default: "anthropic")
   provider: "anthropic",  // or "openai" | "kimi"
@@ -109,7 +109,7 @@ LangChain memory modules are excellent for conversation persistence and retrieva
 - "Can users export their data?"
 
 EDM answers these with a governed artifact:
-- **Schema**: 20 validated fields in Core Profile
+- **Schema**: 20 validated fields in core profile
 - **Governance**: Consent basis, retention policy, subject rights
 - **Portability**: Standard format, not locked to LangChain
 - **MIT licensed**: No vendor dependency

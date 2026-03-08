@@ -3,23 +3,26 @@
  *
  * EDM enrichment layer for LangChain.
  *
- * LangChain has the widest developer surface area. EDM Core Profile
+ * LangChain has the widest developer surface area. EDM Essential profile
  * provides a governed emotional schema layer on top of any LangChain
  * memory (ConversationBufferMemory, VectorStoreRetrieverMemory, etc.)
  *
  * Usage:
- *   const { edmArtifact } = await enrichWithEDM(text, { profile: 'core' })
+ *   const { edmArtifact } = await enrichWithEDM(text, { profile: 'essential' })
  *   await memory.saveContext({ input }, { output })  // LangChain unchanged
  */
 
-import type { EdmArtifact, EdmProfile } from "deepadata-edm-sdk";
+import type { EdmArtifact } from "deepadata-edm-sdk";
 import { extractFromContent } from "deepadata-edm-sdk";
+
+/** EDM profile: controls schema depth */
+export type EdmProfile = "essential" | "extended" | "full";
 
 /**
  * Enrichment options
  */
 export interface EnrichmentOptions {
-  /** EDM profile: "core" (~20 fields), "extended" (~45), "full" (96) */
+  /** EDM profile: "essential" (~20 fields), "extended" (~45), "full" (96) */
   profile?: EdmProfile;
 
   /** LLM provider for extraction */
@@ -35,7 +38,7 @@ export interface EnrichmentOptions {
   jurisdiction?: "GDPR" | "CCPA" | "HIPAA" | "LGPD" | null;
 
   /** Consent basis */
-  consentBasis?: "consent" | "contract" | "legitimate_interest" | "legal_obligation" | "vital_interest" | "public_task" | "none";
+  consentBasis?: "consent" | "contract" | "legitimate_interest" | "none";
 
   /** Visibility level */
   visibility?: "private" | "shared" | "public";
@@ -83,7 +86,7 @@ export interface EnrichmentResult {
  * const output = "I understand. Let's break this down into smaller tasks.";
  *
  * // EDM enrichment (emotional context)
- * const { edmArtifact } = await enrichWithEDM(input, { profile: 'core' });
+ * const { edmArtifact } = await enrichWithEDM(input, { profile: 'essential' });
  *
  * // LangChain memory (unchanged)
  * await memory.saveContext({ input }, { output });
@@ -101,7 +104,7 @@ export async function enrichWithEDM(
   text: string,
   options?: EnrichmentOptions
 ): Promise<EnrichmentResult> {
-  const profile = options?.profile ?? "core";
+  const profile = options?.profile ?? "essential";
 
   const artifact = await extractFromContent({
     content: { text },
@@ -127,4 +130,4 @@ export async function enrichWithEDM(
 }
 
 // Re-export useful types from SDK
-export type { EdmArtifact, EdmProfile } from "deepadata-edm-sdk";
+export type { EdmArtifact } from "deepadata-edm-sdk";

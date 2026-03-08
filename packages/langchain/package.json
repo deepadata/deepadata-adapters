@@ -31,6 +31,15 @@
   ],
   "author": "DeepaData",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/deepadata/deepadata-adapters.git",
+    "directory": "packages/langchain"
+  },
+  "homepage": "https://github.com/deepadata/deepadata-adapters/tree/main/packages/langchain#readme",
+  "bugs": {
+    "url": "https://github.com/deepadata/deepadata-adapters/issues"
+  },
   "dependencies": {
     "deepadata-edm-sdk": ">=0.6.0-alpha"
   },

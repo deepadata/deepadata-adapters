@@ -8,18 +8,21 @@
  * as a governed, portable artifact.
  *
  * Usage:
- *   const { edmArtifact } = await enrichWithEDM(text, { profile: 'core' })
+ *   const { edmArtifact } = await enrichWithEDM(text, { profile: 'essential' })
  *   await mem0.add(text, { user_id: 'user123' })  // Mem0 unchanged
  */
 
-import type { EdmArtifact, EdmProfile } from "deepadata-edm-sdk";
+import type { EdmArtifact } from "deepadata-edm-sdk";
 import { extractFromContent } from "deepadata-edm-sdk";
+
+/** EDM profile: controls schema depth */
+export type EdmProfile = "essential" | "extended" | "full";
 
 /**
  * Enrichment options
  */
 export interface EnrichmentOptions {
-  /** EDM profile: "core" (~20 fields), "extended" (~45), "full" (96) */
+  /** EDM profile: "essential" (~20 fields), "extended" (~45), "full" (96) */
   profile?: EdmProfile;
 
   /** LLM provider for extraction */
@@ -35,7 +38,7 @@ export interface EnrichmentOptions {
   jurisdiction?: "GDPR" | "CCPA" | "HIPAA" | "LGPD" | null;
 
   /** Consent basis */
-  consentBasis?: "consent" | "contract" | "legitimate_interest" | "legal_obligation" | "vital_interest" | "public_task" | "none";
+  consentBasis?: "consent" | "contract" | "legitimate_interest" | "none";
 
   /** Visibility level */
   visibility?: "private" | "shared" | "public";
@@ -75,7 +78,7 @@ export interface EnrichmentResult {
  * const text = "Had an amazing conversation with Sarah about our startup idea...";
  *
  * // EDM enrichment (emotional context)
- * const { edmArtifact } = await enrichWithEDM(text, { profile: 'core' });
+ * const { edmArtifact } = await enrichWithEDM(text, { profile: 'essential' });
  *
  * // Mem0 storage (unchanged)
  * await mem0.add(text, { user_id: 'user123' });
@@ -93,7 +96,7 @@ export async function enrichWithEDM(
   text: string,
   options?: EnrichmentOptions
 ): Promise<EnrichmentResult> {
-  const profile = options?.profile ?? "core";
+  const profile = options?.profile ?? "essential";
 
   const artifact = await extractFromContent({
     content: { text },
@@ -119,4 +122,4 @@ export async function enrichWithEDM(
 }
 
 // Re-export useful types from SDK
-export type { EdmArtifact, EdmProfile } from "deepadata-edm-sdk";
+export type { EdmArtifact } from "deepadata-edm-sdk";
