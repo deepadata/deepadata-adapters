@@ -93,11 +93,11 @@ const { edmArtifact, confidence, model, profile } = await enrichWithEDM(text, {
 
 | Profile | Fields | Use Case |
 |---------|--------|----------|
-| **core** | ~20 | LangChain memory enrichment (recommended) |
+| **essential** | ~20 | LangChain memory enrichment (recommended) |
 | **extended** | ~45 | Journaling, wellness applications |
 | **full** | 96 | Clinical, therapeutic applications |
 
-For LangChain integrations, `core` profile is recommended — lightweight enough to not impact chain performance.
+For LangChain integrations, `essential` profile is recommended — lightweight enough to not impact chain performance.
 
 ## Why Both?
 
@@ -109,7 +109,7 @@ LangChain memory modules are excellent for conversation persistence and retrieva
 - "Can users export their data?"
 
 EDM answers these with a governed artifact:
-- **Schema**: 20 validated fields in core profile
+- **Schema**: 20 validated fields in essential profile
 - **Governance**: Consent basis, retention policy, subject rights
 - **Portability**: Standard format, not locked to LangChain
 - **MIT licensed**: No vendor dependency

@@ -16,13 +16,13 @@ import type { EdmArtifact } from "deepadata-edm-sdk";
 import { extractFromContent } from "deepadata-edm-sdk";
 
 /** EDM profile: controls schema depth */
-export type EdmProfile = "core" | "extended" | "full";
+export type EdmProfile = "essential" | "extended" | "full";
 
 /**
  * Enrichment options
  */
 export interface EnrichmentOptions {
-  /** EDM profile: "core" (~20 fields), "extended" (~45), "full" (96) */
+  /** EDM profile: "essential" (~20 fields), "extended" (~45), "full" (96) */
   profile?: EdmProfile;
 
   /** LLM provider for extraction */

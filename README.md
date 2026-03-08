@@ -18,7 +18,7 @@ All adapters follow the **enrichment layer pattern**:
 
 ```typescript
 // EDM enrichment runs ALONGSIDE your memory platform, not instead of it
-const { edmArtifact } = await enrichWithEDM(text, { profile: 'core' });
+const { edmArtifact } = await enrichWithEDM(text, { profile: 'essential' });
 
 // Your memory platform continues unchanged
 await mem0.add(text, { user_id: 'user123' });
@@ -30,7 +30,7 @@ await memory.saveContext({ input }, { output });
 
 | Profile | Fields | Use Case |
 |---------|--------|----------|
-| **core** | ~20 | Memory platforms, agent frameworks (default for Mem0, LangChain) |
+| **essential** | ~20 | Memory platforms, agent frameworks (default for Mem0, LangChain) |
 | **extended** | ~45 | Journaling, companion AI, workplace wellness (default for Zep) |
 | **full** | 96 | Clinical, therapeutic, regulated systems |
 

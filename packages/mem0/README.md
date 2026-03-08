@@ -20,7 +20,7 @@ const mem0 = new MemoryClient({ apiKey: process.env.MEM0_API_KEY });
 const text = "Had an amazing conversation with Sarah about our startup idea. She really gets the vision and I feel so energized about what we're building together.";
 
 // EDM enrichment (emotional context)
-const { edmArtifact } = await enrichWithEDM(text, { profile: 'core' });
+const { edmArtifact } = await enrichWithEDM(text, { profile: 'essential' });
 
 // Mem0 storage (unchanged — Mem0 does what Mem0 does)
 await mem0.add(text, { user_id: 'user123' });
@@ -48,7 +48,7 @@ From the same text input, you now have:
 ```typescript
 const { edmArtifact, confidence, model, profile } = await enrichWithEDM(text, {
   // EDM profile (default: "core")
-  profile: "core",  // ~20 fields, ideal for memory platforms
+  profile: "essential",  // ~20 fields, ideal for memory platforms
 
   // LLM provider (default: "anthropic")
   provider: "anthropic",  // or "openai" | "kimi"
@@ -69,11 +69,11 @@ const { edmArtifact, confidence, model, profile } = await enrichWithEDM(text, {
 
 | Profile | Fields | Use Case |
 |---------|--------|----------|
-| **core** | ~20 | Memory platforms (Mem0, Zep, LangChain) |
+| **essential** | ~20 | Memory platforms (Mem0, Zep, LangChain) |
 | **extended** | ~45 | Journaling apps, wellness tools |
 | **full** | 96 | Clinical, therapeutic applications |
 
-For Mem0 integrations, `core` profile is recommended.
+For Mem0 integrations, `essential` profile is recommended.
 
 ## Why Both?
 
