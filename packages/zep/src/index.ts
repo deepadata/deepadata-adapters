@@ -51,6 +51,20 @@ export interface EnrichmentOptions {
 }
 
 /**
+ * Gravity domain summary for Zep's temporal scoring
+ */
+export interface GravitySummary {
+  /** Emotional salience (0-1) — higher = more significant */
+  emotionalWeight: number;
+  /** Pattern: cyclical | isolated | chronic | emerging */
+  recurrencePattern: string | null;
+  /** Overall strength (0-1) */
+  strengthScore: number;
+  /** Decay rate: slow | moderate | fast */
+  temporalDecay: string | null;
+}
+
+/**
  * Enrichment result with Gravity domain fields highlighted
  */
 export interface EnrichmentResult {
@@ -69,17 +83,11 @@ export interface EnrichmentResult {
   /**
    * Gravity domain fields useful for Zep's temporal scoring.
    * These map naturally to retrieval weighting.
+   *
+   * NOTE: Only available for 'extended' and 'full' profiles.
+   * Returns null for 'essential' profile (no Gravity domain).
    */
-  gravity: {
-    /** Emotional salience (0-1) — higher = more significant */
-    emotionalWeight: number;
-    /** Pattern: cyclical | isolated | chronic | emerging */
-    recurrencePattern: string | null;
-    /** Overall strength (0-1) */
-    strengthScore: number;
-    /** Decay rate: slow | moderate | fast */
-    temporalDecay: string | null;
-  };
+  gravity: GravitySummary | null;
 }
 
 /**
@@ -134,17 +142,24 @@ export async function enrichWithEDM(
     profile,
   })) as EdmArtifact;
 
+  // Gravity domain only exists in extended and full profiles
+  // Essential profile does not include gravity
+  const hasGravity = profile !== "essential" && artifact.gravity;
+  const gravity: GravitySummary | null = hasGravity
+    ? {
+        emotionalWeight: artifact.gravity.emotional_weight,
+        recurrencePattern: artifact.gravity.recurrence_pattern,
+        strengthScore: artifact.gravity.strength_score,
+        temporalDecay: artifact.gravity.temporal_decay,
+      }
+    : null;
+
   return {
     edmArtifact: artifact,
     confidence: artifact.telemetry.entry_confidence,
     model: artifact.telemetry.extraction_model ?? "unknown",
     profile,
-    gravity: {
-      emotionalWeight: artifact.gravity.emotional_weight,
-      recurrencePattern: artifact.gravity.recurrence_pattern,
-      strengthScore: artifact.gravity.strength_score,
-      temporalDecay: artifact.gravity.temporal_decay,
-    },
+    gravity,
   };
 }
 

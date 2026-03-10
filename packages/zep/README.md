@@ -89,11 +89,13 @@ console.log(gravity.temporalDecay);      // "slow"
 
 | Profile | Fields | Use Case |
 |---------|--------|----------|
-| **core** | ~20 | Basic emotional context |
-| **extended** | ~45 | Full Gravity domain (recommended for Zep) |
+| **essential** | ~24 | Basic emotional context (no Gravity domain) |
+| **extended** | ~50 | Full Gravity domain (recommended for Zep) |
 | **full** | 96 | Clinical, therapeutic applications |
 
 For Zep integrations, `extended` profile is recommended to get all Gravity fields.
+
+> **Note:** The `gravity` field in the result is `null` when using `essential` profile since it doesn't include the Gravity domain.
 
 ## Why Both?
 
