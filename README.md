@@ -40,7 +40,7 @@ All adapters default to **Kimi K2** for cost optimization. For GDPR Article 9 or
 
 ```typescript
 const { edmArtifact } = await enrichWithEDM(text, {
-  profile: 'core',
+  profile: 'essential',
   provider: 'anthropic',  // EU/US compliance
 });
 ```

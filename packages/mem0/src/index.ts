@@ -98,7 +98,7 @@ export async function enrichWithEDM(
 ): Promise<EnrichmentResult> {
   const profile = options?.profile ?? "essential";
 
-  const artifact = await extractFromContent({
+  const artifact = (await extractFromContent({
     content: { text },
     metadata: {
       subjectId: options?.subjectId,
@@ -111,7 +111,7 @@ export async function enrichWithEDM(
     provider: options?.provider ?? "kimi",
     model: options?.model,
     profile,
-  });
+  })) as EdmArtifact;
 
   return {
     edmArtifact: artifact,
