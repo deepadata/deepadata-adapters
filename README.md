@@ -61,7 +61,7 @@ npm run typecheck
 ## Related
 
 - [deepadata-edm-sdk](https://github.com/deepadata/deepadata-edm-sdk) — Core SDK
-- [deepadata-ddna-tools](https://github.com/deepadata/deepadata-ddna-tools) — Signing and verification
+- [deepadata-ddna-tools](https://github.com/emotional-data-model/ddna-tools) — Signing and verification
 - [deepadata.com](https://deepadata.com) — Platform and API
 
 ## License

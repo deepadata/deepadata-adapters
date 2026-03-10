@@ -119,7 +119,7 @@ EDM answers these with structured salience data:
 ## Related
 
 - [deepadata-edm-sdk](https://github.com/deepadata/deepadata-edm-sdk) — Core SDK
-- [deepadata-ddna-tools](https://github.com/deepadata/deepadata-ddna-tools) — Signing and verification
+- [deepadata-ddna-tools](https://github.com/emotional-data-model/ddna-tools) — Signing and verification
 - [deepadata-mem0-adapter](https://github.com/deepadata/deepadata-mem0-adapter) — Mem0 enrichment
 
 ## License
