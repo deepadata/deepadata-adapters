@@ -30,7 +30,7 @@
     "llm"
   ],
   "author": "DeepaData",
-  "license": "MIT",
+  "license": "UNLICENSED",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/deepadata/deepadata-adapters.git",
