@@ -93,8 +93,8 @@ const { edmArtifact, confidence, model, profile } = await enrichWithEDM(text, {
 
 | Profile | Fields | Use Case |
 |---------|--------|----------|
-| **essential** | ~20 | LangChain memory enrichment (recommended) |
-| **extended** | ~45 | Journaling, wellness applications |
+| **essential** | 24 | LangChain memory enrichment (recommended) |
+| **extended** | 50 | Journaling, wellness applications |
 | **full** | 96 | Clinical, therapeutic applications |
 
 For LangChain integrations, `essential` profile is recommended — lightweight enough to not impact chain performance.

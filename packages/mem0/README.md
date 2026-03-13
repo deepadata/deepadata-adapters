@@ -69,8 +69,8 @@ const { edmArtifact, confidence, model, profile } = await enrichWithEDM(text, {
 
 | Profile | Fields | Use Case |
 |---------|--------|----------|
-| **essential** | ~20 | Memory platforms (Mem0, Zep, LangChain) |
-| **extended** | ~45 | Journaling apps, wellness tools |
+| **essential** | 24 | Memory platforms (Mem0, Zep, LangChain) |
+| **extended** | 50 | Journaling apps, wellness tools |
 | **full** | 96 | Clinical, therapeutic applications |
 
 For Mem0 integrations, `essential` profile is recommended.

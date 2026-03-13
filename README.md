@@ -30,8 +30,8 @@ await memory.saveContext({ input }, { output });
 
 | Profile | Fields | Use Case |
 |---------|--------|----------|
-| **essential** | ~20 | Memory platforms, agent frameworks (default for Mem0, LangChain) |
-| **extended** | ~45 | Journaling, companion AI, workplace wellness (default for Zep) |
+| **essential** | 24 | Memory platforms, agent frameworks (default for Mem0, LangChain) |
+| **extended** | 50 | Journaling, companion AI, workplace wellness (default for Zep) |
 | **full** | 96 | Clinical, therapeutic, regulated systems |
 
 ## Provider Selection
