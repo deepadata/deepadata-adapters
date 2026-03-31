@@ -1,14 +1,22 @@
 # deepadata-langchain-adapter
 
-EDM enrichment layer for [LangChain](https://langchain.com).
+LangChain handles retrieval. EDM encodes what's worth retrieving.
 
-**LangChain stores conversation context. EDM captures the emotional governance of that context — as a portable, schema-validated artifact.**
+Most memory systems score relevance at retrieval time. EDM encodes significance at capture time — 57 affective fields including emotional_weight, arc_type, recall_triggers, and identity_thread. The artifact knows what mattered before any query is asked.
+
+This adapter runs EDM extraction alongside LangChain — not replacing what LangChain does, completing it.
 
 ## Installation
 
 ```bash
 npm install deepadata-langchain-adapter deepadata-edm-sdk
 ```
+
+## Why significance matters
+
+In a controlled retrieval comparison, EDM field routing outperformed raw vector similarity by 55.6 percentage points on significance-typed queries — queries like "what has this person been working through all along?" that have zero lexical overlap with the answer.
+
+Raw vector similarity answers factual queries well. It structurally cannot answer significance queries. EDM can.
 
 ## Usage
 

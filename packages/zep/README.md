@@ -1,14 +1,22 @@
 # deepadata-zep-adapter
 
-EDM enrichment layer for [Zep](https://www.getzep.com).
+Zep handles retrieval. EDM encodes what's worth retrieving.
 
-**Zep scores temporal memory for retrieval. EDM captures the emotional salience of why those memories matter — as structured data that maps to Zep's weighting model.**
+Most memory systems score relevance at retrieval time. EDM encodes significance at capture time — 57 affective fields including emotional_weight, arc_type, recall_triggers, and identity_thread. The artifact knows what mattered before any query is asked.
+
+This adapter runs EDM extraction alongside Zep — not replacing what Zep does, completing it.
 
 ## Installation
 
 ```bash
 npm install deepadata-zep-adapter deepadata-edm-sdk
 ```
+
+## Why significance matters
+
+In a controlled retrieval comparison, EDM field routing outperformed raw vector similarity by 55.6 percentage points on significance-typed queries — queries like "what has this person been working through all along?" that have zero lexical overlap with the answer.
+
+Raw vector similarity answers factual queries well. It structurally cannot answer significance queries. EDM can.
 
 ## Usage
 
