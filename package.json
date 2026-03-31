@@ -16,7 +16,7 @@
     "url": "git+https://github.com/deepadata/deepadata-adapters.git"
   },
   "author": "DeepaData",
-  "license": "UNLICENSED",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/deepadata/deepadata-adapters/issues"
   },

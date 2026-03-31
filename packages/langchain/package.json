@@ -30,7 +30,7 @@
     "llm"
   ],
   "author": "DeepaData",
-  "license": "UNLICENSED",
+  "license": "MIT",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/deepadata/deepadata-adapters.git",
@@ -41,7 +41,7 @@
     "url": "https://github.com/deepadata/deepadata-adapters/issues"
   },
   "dependencies": {
-    "deepadata-edm-sdk": ">=0.6.0-alpha"
+    "deepadata-edm-sdk": "^0.7.0"
   },
   "devDependencies": {
     "@types/node": "^22.10.0",
