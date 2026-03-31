@@ -1,6 +1,6 @@
 {
   "name": "deepadata-langchain-adapter",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "EDM enrichment layer for LangChain — governed emotional schema for any memory type",
   "type": "module",
   "main": "dist/index.js",
