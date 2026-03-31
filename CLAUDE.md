@@ -10,8 +10,8 @@ platform's native memory format, enabling significance-aware
 retrieval without replacing the memory stack.
 
 - **Current version:** v0.1.x
-- **License:** UNLICENSED (commercial)
-- **Status:** Partially built, patch republish pending
+- **License:** MIT
+- **Status:** Published — mem0@0.1.2, zep@0.1.1, langchain@0.1.1. Dependency: deepadata-edm-sdk ^0.7.1. All adapters MIT licensed.
 
 ## Role in the DeepaData System
 
