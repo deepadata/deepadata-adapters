@@ -91,6 +91,37 @@ export interface EnrichmentResult {
 }
 
 /**
+ * Options for significance-based query routing
+ */
+export interface SignificanceQueryOptions {
+  query: string;
+  subjectVpId?: string;
+  topK?: number;
+  apiKey?: string;
+}
+
+/**
+ * A field filter returned by /v1/activate
+ */
+export interface FieldFilter {
+  field: string;
+  operator: 'gte' | 'eq' | 'not_null' | 'in';
+  value: unknown;
+  weight: number;
+}
+
+/**
+ * Result from queryBySignificance
+ */
+export interface SignificanceQueryResult {
+  arcTypes: string[];
+  primaryDomain: string | null;
+  fieldFilters: FieldFilter[];
+  confidence: number;
+  significanceGate: boolean;
+}
+
+/**
  * Enrich text input with EDM emotional context.
  *
  * Run this alongside Zep — not instead of it.
@@ -161,6 +192,72 @@ export async function enrichWithEDM(
     profile,
     gravity,
   };
+}
+
+/**
+ * Translate a natural language query into EDM significance field filters.
+ *
+ * Call /v1/activate then apply the returned field_filters to your
+ * Zep storage alongside semantic search.
+ *
+ * @example
+ * ```typescript
+ * const { fieldFilters } = await queryBySignificance({
+ *   query: 'when was I happiest with mum',
+ *   subjectVpId: userId,
+ *   apiKey: process.env.DEEPADATA_API_KEY,
+ * })
+ * // Apply fieldFilters to your memory system query
+ * ```
+ */
+export async function queryBySignificance(
+  options: SignificanceQueryOptions
+): Promise<SignificanceQueryResult> {
+  const apiKey = options.apiKey ?? process.env.DEEPADATA_API_KEY
+
+  if (!apiKey) {
+    throw new Error(
+      'DEEPADATA_API_KEY is required for queryBySignificance. ' +
+      'Pass apiKey option or set DEEPADATA_API_KEY env var.'
+    )
+  }
+
+  const baseUrl = process.env.DEEPADATA_API_URL ?? 'https://deepadata.com'
+
+  const response = await fetch(
+    `${baseUrl}/api/v1/activate`,
+    {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${apiKey}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        query: options.query,
+        subject_vp_id: options.subjectVpId,
+        top_k: options.topK ?? 10,
+      }),
+    }
+  )
+
+  if (!response.ok) {
+    const error = await response.json().catch(() => ({}))
+    throw new Error(
+      `queryBySignificance failed: ${response.status} ` +
+      `${(error as Record<string, unknown>).error ?? ''}`
+    )
+  }
+
+  const result = await response.json()
+  const data = result.data
+
+  return {
+    arcTypes: data.arc_types ?? [],
+    primaryDomain: data.primary_domain ?? null,
+    fieldFilters: data.field_filters ?? [],
+    confidence: data.confidence ?? 0,
+    significanceGate: data.significance_gate ?? false,
+  }
 }
 
 // Re-export useful types from SDK
