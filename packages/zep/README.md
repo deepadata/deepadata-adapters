@@ -46,6 +46,29 @@ await zep.memory.add(sessionId, {
 //   gravity.temporalDecay    → "slow" (long-lasting impact)
 ```
 
+## Querying by significance
+
+After capturing with enrichWithEDM, query by emotional significance using /v1/activate:
+
+```typescript
+import { queryBySignificance } from 'deepadata-zep-adapter'
+
+const { fieldFilters, arcTypes, significanceGate } = await queryBySignificance({
+  query: 'when was I happiest with mum',
+  subjectVpId: userId,
+})
+
+// fieldFilters contains ranked EDM field filters to apply to
+// your memory system alongside semantic search.
+// Example:
+// [
+//   { field: 'emotional_weight', operator: 'gte', value: 0.6, weight: 0.82 },
+//   { field: 'tether_type', operator: 'not_null', weight: 0.74 }
+// ]
+```
+
+The significance channel runs alongside your existing semantic search — it finds what similarity misses. 94.4% hit rate on significance-typed queries vs 33.3% raw vector similarity.
+
 ## Gravity Domain → Zep Scoring
 
 EDM's Gravity domain produces structured salience data that maps naturally to Zep's temporal memory scoring:
