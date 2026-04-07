@@ -9,9 +9,16 @@ Mem0, Zep, LangChain. Each adapter maps EDM fields to the
 platform's native memory format, enabling significance-aware
 retrieval without replacing the memory stack.
 
-- **Current version:** v0.1.x
 - **License:** MIT
-- **Status:** Published — mem0@0.1.2, zep@0.1.1, langchain@0.1.1. Dependency: deepadata-edm-sdk ^0.7.1. All adapters MIT licensed.
+- **deepadata-edm-sdk dependency:** ^0.8.2
+
+## Adapter Versions
+
+| Adapter | Version | npm |
+|---|---|---|
+| mem0 | v0.1.5 | deepadata-mem0-adapter |
+| zep | v0.1.4 | deepadata-zep-adapter |
+| langchain | v0.1.4 | deepadata-langchain-adapter |
 
 ## Role in the DeepaData System
 
@@ -31,9 +38,19 @@ DeepaData stack.
 
 ## What This Repo Contains
 
-- `packages/mem0/` — Mem0 adapter (v0.1.1)
-- `packages/zep/` — Zep adapter (v0.1.0)
-- `packages/langchain/` — LangChain memory connector (v0.1.0)
+- `packages/mem0/` — Mem0 adapter (v0.1.5)
+- `packages/zep/` — Zep adapter (v0.1.4)
+- `packages/langchain/` — LangChain memory connector (v0.1.4)
+
+## What Each Adapter Exports
+
+All three adapters export:
+- `enrichWithEDM` — add EDM significance to memory records
+- `queryBySignificance` — significance-aware retrieval
+- `feedback` — re-exported from SDK, closes learning loop
+
+**Note:** `activate()` and `feedback()` come from deepadata-edm-sdk.
+They are not duplicated in adapters — adapters re-export SDK functions.
 
 ## What Each Adapter Does
 
@@ -58,10 +75,9 @@ memory with EDM significance fields.
 | Do not expose extraction prompts | Commercial IP lives in edm-sdk |
 | Adapters are thin mappers | No extraction logic in adapters |
 
-## Blocked On
+## Deferred
 
-- npm patch republish waiting on edm-sdk v0.7.0 official npm publish
-- Essential type rename needs version bump
+- `combineWith` merge logic: deferred to v0.2.x (vendor SDK integration not yet built)
 
 ## Source of Truth
 
