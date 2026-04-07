@@ -1,6 +1,6 @@
 {
   "name": "deepadata-mem0-adapter",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "EDM enrichment layer for Mem0 — capture emotional context alongside memory storage",
   "type": "module",
   "main": "dist/index.js",
@@ -40,7 +40,7 @@
     "url": "https://github.com/deepadata/deepadata-adapters/issues"
   },
   "dependencies": {
-    "deepadata-edm-sdk": "^0.8.0"
+    "deepadata-edm-sdk": "^0.8.2"
   },
   "devDependencies": {
     "@types/node": "^22.10.0",

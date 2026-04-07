@@ -12,8 +12,8 @@
  *   await mem0.add(text, { user_id: 'user123' })  // Mem0 unchanged
  */
 
-import type { EdmArtifact, ActivateResult } from "deepadata-edm-sdk";
-import { extractFromContent, activate } from "deepadata-edm-sdk";
+import type { EdmArtifact, ActivateResult, FeedbackOptions } from "deepadata-edm-sdk";
+import { extractFromContent, activate, feedback } from "deepadata-edm-sdk";
 
 /** EDM profile: controls schema depth */
 export type EdmProfile = "essential" | "extended" | "full";
@@ -162,5 +162,6 @@ export async function queryBySignificance(
   return activateResult
 }
 
-// Re-export useful types from SDK
-export type { EdmArtifact, ActivateResult } from "deepadata-edm-sdk";
+// Re-export useful types and functions from SDK
+export type { EdmArtifact, ActivateResult, FeedbackOptions } from "deepadata-edm-sdk";
+export { feedback } from "deepadata-edm-sdk";
