@@ -164,4 +164,4 @@ export async function queryBySignificance(
 
 // Re-export useful types and functions from SDK
 export type { EdmArtifact, ActivateResult, FeedbackOptions } from "deepadata-edm-sdk";
-export { feedback } from "deepadata-edm-sdk";
+export { activate, feedback } from "deepadata-edm-sdk";
