@@ -1,6 +1,6 @@
 {
   "name": "deepadata-zep-adapter",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "EDM enrichment layer for Zep — structured salience data for temporal memory scoring",
   "type": "module",
   "main": "dist/index.js",
@@ -41,7 +41,7 @@
     "url": "https://github.com/deepadata/deepadata-adapters/issues"
   },
   "dependencies": {
-    "deepadata-edm-sdk": "^0.7.0"
+    "deepadata-edm-sdk": "^0.8.0"
   },
   "devDependencies": {
     "@types/node": "^22.10.0",
