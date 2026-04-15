@@ -15,8 +15,8 @@
 import type { EdmArtifact, ActivateResult, FeedbackOptions } from "deepadata-edm-sdk";
 import { extractFromContent, activate, feedback } from "deepadata-edm-sdk";
 
-/** EDM profile: controls schema depth */
-export type EdmProfile = "essential" | "extended" | "full";
+/** EDM profile: controls schema depth. Supports partner: prefixed custom profiles (ADR-0017) */
+export type EdmProfile = "essential" | "extended" | "full" | `partner:${string}`;
 
 /**
  * Enrichment options
@@ -123,7 +123,8 @@ export async function enrichWithEDM(
     },
     provider: options?.provider ?? "kimi",
     model: options?.model,
-    profile,
+    // Cast to any: SDK accepts partner: profiles at runtime (ADR-0017)
+    profile: profile as unknown as "essential" | "extended" | "full",
   })) as EdmArtifact;
 
   return {

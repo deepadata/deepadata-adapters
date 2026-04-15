@@ -10,15 +10,15 @@ platform's native memory format, enabling significance-aware
 retrieval without replacing the memory stack.
 
 - **License:** MIT
-- **deepadata-edm-sdk dependency:** ^0.8.2
+- **deepadata-edm-sdk dependency:** ^0.8.3
 
 ## Adapter Versions
 
 | Adapter | Version | npm |
 |---|---|---|
-| mem0 | v0.1.5 | deepadata-mem0-adapter |
-| zep | v0.1.4 | deepadata-zep-adapter |
-| langchain | v0.1.4 | deepadata-langchain-adapter |
+| mem0 | v0.1.7 | deepadata-mem0-adapter |
+| zep | v0.1.6 | deepadata-zep-adapter |
+| langchain | v0.1.6 | deepadata-langchain-adapter |
 
 ## Role in the DeepaData System
 
@@ -38,9 +38,9 @@ DeepaData stack.
 
 ## What This Repo Contains
 
-- `packages/mem0/` — Mem0 adapter (v0.1.5)
-- `packages/zep/` — Zep adapter (v0.1.4)
-- `packages/langchain/` — LangChain memory connector (v0.1.4)
+- `packages/mem0/` — Mem0 adapter (v0.1.7)
+- `packages/zep/` — Zep adapter (v0.1.6)
+- `packages/langchain/` — LangChain memory connector (v0.1.6)
 
 ## What Each Adapter Exports
 
