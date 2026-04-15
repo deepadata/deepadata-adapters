@@ -10,7 +10,7 @@ platform's native memory format, enabling significance-aware
 retrieval without replacing the memory stack.
 
 - **License:** MIT
-- **deepadata-edm-sdk dependency:** ^0.8.3
+- **deepadata-edm-sdk dependency:** ^0.8.4
 
 ## Adapter Versions
 
