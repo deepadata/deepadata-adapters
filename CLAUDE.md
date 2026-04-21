@@ -75,9 +75,32 @@ memory with EDM significance fields.
 | Do not expose extraction prompts | Commercial IP lives in edm-sdk |
 | Adapters are thin mappers | No extraction logic in adapters |
 
+## Partner Profiles (v0.8.0)
+
+Adapters propagate `partner:` prefixed `meta.profile` values through
+to deepadata-com. Mem0/Zep/LangChain type surfaces accept partner-prefixed
+values per ADR-0017.
+
+## Arc Types (v0.8.0)
+
+14 canonical arc_types per edm-schema.ts:189-196. v0.8.0 added
+`gratitude` and `authenticity`:
+
+```
+betrayal, liberation, grief, discovery, resistance, bond,
+moral_awakening, transformation, reconciliation, reckoning,
+threshold, exile,
+gratitude, authenticity
+```
+
 ## Deferred
 
 - `combineWith` merge logic: deferred to v0.2.x (vendor SDK integration not yet built)
+
+## Open Items
+
+- `activate_reason` adapter surface: not yet implemented. Platform
+  endpoint `/v1/activate_reason` exists (ADR-0018); adapter wrapper pending.
 
 ## Source of Truth
 
