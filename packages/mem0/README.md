@@ -128,6 +128,7 @@ EDM answers these questions with a governed artifact format that includes:
 | `ANTHROPIC_API_KEY` | Claude extraction (default) |
 | `OPENAI_API_KEY` | GPT extraction |
 | `MOONSHOT_API_KEY` | Kimi extraction |
+| `DEEPADATA_API_KEY` | DeepaData account API key; required for activation queries (`queryBySignificance`). Not required for extraction (uses your LLM provider key directly). |
 
 ## Related
 
