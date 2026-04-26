@@ -63,6 +63,30 @@ const { fieldFilters, arcTypes, significanceGate } = await queryBySignificance({
 
 The significance channel runs alongside your existing semantic search — it finds what similarity misses. 94.4% hit rate on significance-typed queries vs 33.3% raw vector similarity.
 
+## Querying by reasoning
+
+Where `queryBySignificance` returns ranked field filters for you to apply to your own retrieval, `queryByReasoning` runs the full three-step pipeline server-side via `/v1/activate_reason` (ADR-0018) — classify the query, retrieve 50 candidates from TurboPuffer, reason over them with Kimi K2, return the answer plus the sources that informed it.
+
+```typescript
+import { queryByReasoning } from 'deepadata-mem0-adapter'
+
+const { answer, sources, reasoningFieldsUsed, significanceGate } = await queryByReasoning({
+  query: 'what has this person been working through all along',
+  namespace: userNamespace,
+  subjectVpId: userId,
+  apiKey: process.env.DEEPADATA_API_KEY,
+})
+
+// `answer` — reasoned response grounded in retrieved candidates
+// `sources` — top artifacts (date, narrative, arc_type, emotional_weight,
+//   identity_thread, tether_type) that informed the answer
+// `reasoningFieldsUsed` — the EDM fields the model attended to
+// `significanceGate` — false when the query is not significance-typed;
+//   answer and sources are empty in that case
+```
+
+This is the **reasoning premium** surface — metered separately from `/v1/activate` per the ADR-0022 pricing table. Requires `DEEPADATA_API_KEY`.
+
 ## What You Get
 
 From the same text input, you now have:
