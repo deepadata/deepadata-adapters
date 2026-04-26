@@ -24,6 +24,28 @@ All three adapters depend on `ddna-tools ^0.3.0` (MIT, OSS) for
 canonical-profile extraction, and `deepadata-edm-sdk ^0.8.6` for activation,
 feedback, and a fallback extraction path.
 
+## Versioning
+
+Bump triggers per audit recommendation 8:
+
+| Bump | When | Examples |
+|---|---|---|
+| **Patch** (`0.x.Y`) | Bug fixes, doc updates, dependency bumps that don't change observable adapter behaviour | SDK pin nudge from `^0.8.4` to `^0.8.6`; README clarifications; internal refactors |
+| **Minor** (`0.X.0`) | New methods or capabilities, routing changes that affect the extraction path | Adding `queryByReasoning`; routing canonical extraction through `ddna-tools`; new exported function |
+| **Major** (`X.0.0`) | Breaking API changes, removed methods, parameter shape changes | Removing `enrichWithEDM`; renaming a public method; changing the return shape of an exported function |
+
+**Reasoning rule:** removing a non-functional surface is patch; removing
+a working surface is minor.
+
+ADR-0023 routed canonical extraction through `ddna-tools` — a routing
+change that would normally warrant a minor bump. The mem0 v0.1.7 → v0.1.8,
+zep v0.1.6 → v0.1.7, and langchain v0.1.6 → v0.1.7 releases also removed
+the `partner:${string}` value from the `EdmProfile` type. That removal was
+treated as patch because the type was dead code: it silently fell through
+to the full-profile prompt because the registry that resolves partner
+prompts (ADR-0012) has not shipped. The removed surface never functioned,
+so no consumer behaviour changed.
+
 ## Role in the DeepaData System
 
 ```
