@@ -9,8 +9,10 @@ This adapter runs EDM extraction alongside Zep — not replacing what Zep does, 
 ## Installation
 
 ```bash
-npm install deepadata-zep-adapter deepadata-edm-sdk
+npm install deepadata-zep-adapter
 ```
+
+`ddna-tools` (MIT) and `deepadata-edm-sdk` are pulled in transitively. Canonical extraction (`essential | extended | full`) routes through `ddna-tools` v0.3.0 per ADR-0023; the SDK is retained for activation, feedback, and as a fallback path.
 
 ## Why significance matters
 
@@ -127,6 +129,10 @@ console.log(gravity.temporalDecay);      // "slow"
 For Zep integrations, `extended` profile is recommended to get all Gravity fields.
 
 > **Note:** The `gravity` field in the result is `null` when using `essential` profile since it doesn't include the Gravity domain.
+
+> Partner profiles (`partner:<id>`) are not yet supported by this adapter.
+> Registry resolution lands with ADR-0012; until then, the adapter accepts
+> only canonical profile values.
 
 ## Why Both?
 
