@@ -12,8 +12,18 @@
  *   await memory.saveContext({ input }, { output })  // LangChain unchanged
  */
 
-import type { EdmArtifact, ActivateResult, FeedbackOptions } from "deepadata-edm-sdk";
-import { extractFromContent, activate, feedback } from "deepadata-edm-sdk";
+import type {
+  EdmArtifact,
+  ActivateResult,
+  ActivateReasonResult,
+  FeedbackOptions,
+} from "deepadata-edm-sdk";
+import {
+  extractFromContent,
+  activate,
+  activateReason,
+  feedback,
+} from "deepadata-edm-sdk";
 import {
   createAnthropicClient,
   createOpenAIClient,
@@ -103,6 +113,22 @@ export interface SignificanceQueryOptions {
 
 /** @deprecated Use ActivateResult from deepadata-edm-sdk */
 export type SignificanceQueryResult = ActivateResult;
+
+/**
+ * Options for reasoning-based query routing (`/v1/activate_reason`)
+ */
+export interface ReasoningQueryOptions {
+  /** Natural language query */
+  query: string;
+  /** TurboPuffer namespace to query against */
+  namespace: string;
+  /** Optional VitaPass subject ID for scoping the activation event */
+  subjectVpId?: string;
+  /** Number of sources to return (default 5, max 20) */
+  topK?: number;
+  /** API key for the deepadata-com platform; falls back to DEEPADATA_API_KEY env */
+  apiKey?: string;
+}
 
 /**
  * Enrich text input with EDM emotional context.
@@ -243,6 +269,45 @@ export async function queryBySignificance(
   return activateResult
 }
 
+/**
+ * Translate a natural language query into a reasoned answer grounded in
+ * EDM-encoded memory artifacts via `/v1/activate_reason` (ADR-0018).
+ *
+ * Where `queryBySignificance` returns ranked field filters for the caller
+ * to apply to their own retrieval, `queryByReasoning` runs the three-step
+ * pipeline server-side: classify → retrieve 50 candidates from
+ * TurboPuffer → reason over them with Kimi K2. The result includes the
+ * answer, the top sources that informed it, and the EDM fields the
+ * reasoning model attended to.
+ *
+ * Metered surface — requires `DEEPADATA_API_KEY` (reasoning premium).
+ *
+ * @example
+ * ```typescript
+ * const { answer, sources, reasoningFieldsUsed } = await queryByReasoning({
+ *   query: 'what has this person been working through all along',
+ *   namespace: userNamespace,
+ *   subjectVpId: userId,
+ *   apiKey: process.env.DEEPADATA_API_KEY,
+ * })
+ * ```
+ */
+export async function queryByReasoning(
+  options: ReasoningQueryOptions
+): Promise<ActivateReasonResult> {
+  return activateReason(options.query, {
+    namespace: options.namespace,
+    subjectVpId: options.subjectVpId,
+    topK: options.topK,
+    apiKey: options.apiKey,
+  });
+}
+
 // Re-export useful types and functions from SDK
-export type { EdmArtifact, ActivateResult, FeedbackOptions } from "deepadata-edm-sdk";
-export { activate, feedback } from "deepadata-edm-sdk";
+export type {
+  EdmArtifact,
+  ActivateResult,
+  ActivateReasonResult,
+  FeedbackOptions,
+} from "deepadata-edm-sdk";
+export { activate, activateReason, feedback } from "deepadata-edm-sdk";
