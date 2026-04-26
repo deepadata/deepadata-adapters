@@ -45,6 +45,19 @@ const { edmArtifact } = await enrichWithEDM(text, {
 });
 ```
 
+## Commercial Boundary
+
+Three classes of surface across the EDM stack — free, metered, and subscription. Per ADR-0022 the moat is artifact + activation + registry: extraction is open and unmetered; activation, feedback, and certification are paid.
+
+| Surface | Where it lives | Commercial model |
+|---|---|---|
+| Canonical extraction (`essential` / `extended` / `full`) | `ddna-tools` (MIT) | **Free** — bring your own LLM key |
+| Local seal / verify (Ed25519, W3C Data Integrity Proofs) | `ddna-tools` (MIT) | **Free** — no network call |
+| `queryBySignificance` → `/v1/activate` | `deepadata-com` API | **Metered** — requires `DEEPADATA_API_KEY` |
+| `feedback` → `/v1/feedback` | `deepadata-com` API | **Metered** — requires `DEEPADATA_API_KEY` |
+| Reasoning queries → `/v1/activate_reason` (ADR-0018; adapter wrapper pending) | `deepadata-com` API | **Metered** (reasoning premium) |
+| Certification → `/v1/issue` | `deepadata-com` API | **Subscription** |
+
 ## Development
 
 ```bash
