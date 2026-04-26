@@ -9,8 +9,10 @@ This adapter runs EDM extraction alongside Mem0 — not replacing what Mem0 does
 ## Installation
 
 ```bash
-npm install deepadata-mem0-adapter deepadata-edm-sdk
+npm install deepadata-mem0-adapter
 ```
+
+`ddna-tools` (MIT) and `deepadata-edm-sdk` are pulled in transitively. Canonical extraction (`essential | extended | full`) routes through `ddna-tools` v0.3.0 per ADR-0023; the SDK is retained for activation, feedback, and as a fallback path.
 
 ## Why significance matters
 
@@ -105,6 +107,10 @@ const { edmArtifact, confidence, model, profile } = await enrichWithEDM(text, {
 | **full** | 96 | Clinical, therapeutic applications |
 
 For Mem0 integrations, `essential` profile is recommended.
+
+> Partner profiles (`partner:<id>`) are not yet supported by this adapter.
+> Registry resolution lands with ADR-0012; until then, the adapter accepts
+> only canonical profile values.
 
 ## Why Both?
 
