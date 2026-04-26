@@ -14,15 +14,39 @@
 
 import type { EdmArtifact, ActivateResult, FeedbackOptions } from "deepadata-edm-sdk";
 import { extractFromContent, activate, feedback } from "deepadata-edm-sdk";
+import {
+  createAnthropicClient,
+  createOpenAIClient,
+  createKimiClient,
+  extractWithLlm,
+  extractWithOpenAI,
+  extractWithKimi,
+  getKimiModelId,
+  assembleProfileArtifact,
+} from "ddna-tools";
 
-/** EDM profile: controls schema depth. Supports partner: prefixed custom profiles (ADR-0017) */
-export type EdmProfile = "essential" | "extended" | "full" | `partner:${string}`;
+/**
+ * EDM canonical profile.
+ *
+ * Partner profiles (`partner:<id>`) are intentionally not part of this
+ * type. The registry that resolves partner-profile prompts is gated
+ * by ADR-0012 and is not yet shipped; until then, any `partner:` value
+ * silently falls through to the full-profile prompt. Re-add when the
+ * registry exists per ADR-0012 / ADR-0017.
+ */
+export type EdmProfile = "essential" | "extended" | "full";
+
+const CANONICAL_PROFILES: ReadonlySet<string> = new Set([
+  "essential",
+  "extended",
+  "full",
+]);
 
 /**
  * Enrichment options
  */
 export interface EnrichmentOptions {
-  /** EDM profile: "essential" (~20 fields), "extended" (~45), "full" (96) */
+  /** EDM profile: "essential" (~24 fields), "extended" (~50), "full" (96) */
   profile?: EdmProfile;
 
   /** LLM provider for extraction */
@@ -109,6 +133,10 @@ export type SignificanceQueryResult = ActivateResult;
  * // - EDM artifact for emotional governance
  * ```
  *
+ * Canonical profiles (essential / extended / full) extract via ddna-tools
+ * v0.3.0 (MIT, BYOK). Non-canonical string values fall back to the SDK
+ * extraction path with a deprecation warning.
+ *
  * @param text - The raw text input (user message, context, etc.)
  * @param options - Enrichment options
  * @returns EDM artifact with emotional context
@@ -117,29 +145,73 @@ export async function enrichWithEDM(
   text: string,
   options?: EnrichmentOptions
 ): Promise<EnrichmentResult> {
-  const profile = options?.profile ?? "essential";
+  const profile = (options?.profile ?? "essential") as string;
+  const provider = options?.provider ?? "kimi";
 
-  const artifact = (await extractFromContent({
+  const metadata = {
+    subjectId: options?.subjectId,
+    jurisdiction: options?.jurisdiction ?? undefined,
+    consentBasis: options?.consentBasis ?? "consent",
+    visibility: options?.visibility ?? "private",
+    piiTier: options?.piiTier ?? "moderate",
+    tags: options?.tags,
+  } as const;
+
+  if (CANONICAL_PROFILES.has(profile)) {
+    const canonical = profile as "essential" | "extended" | "full";
+    const llmResult =
+      provider === "openai"
+        ? await extractWithOpenAI(createOpenAIClient(), { text }, options?.model, 0, canonical)
+        : provider === "anthropic"
+        ? await extractWithLlm(createAnthropicClient(), { text }, options?.model, canonical)
+        : await extractWithKimi(
+            createKimiClient(),
+            { text },
+            options?.model ?? getKimiModelId(),
+            canonical
+          );
+
+    const artifact = assembleProfileArtifact(
+      llmResult.extracted as unknown as Record<string, unknown>,
+      metadata,
+      {
+        confidence: llmResult.confidence,
+        model: llmResult.model,
+        profile: canonical,
+        provider,
+        notes: llmResult.notes,
+        hasText: true,
+        hasImage: false,
+      }
+    ) as unknown as EdmArtifact;
+
+    return {
+      edmArtifact: artifact,
+      confidence: artifact.telemetry.entry_confidence,
+      model: artifact.telemetry.extraction_model ?? "unknown",
+      profile: canonical,
+    };
+  }
+
+  console.warn(
+    `[deepadata-langchain-adapter] profile "${profile}" is not canonical; ` +
+      `falling back to SDK extraction. This path is deprecated and will be ` +
+      `removed once partner-profile registry support lands (ADR-0012).`
+  );
+
+  const sdkArtifact = (await extractFromContent({
     content: { text },
-    metadata: {
-      subjectId: options?.subjectId,
-      jurisdiction: options?.jurisdiction,
-      consentBasis: options?.consentBasis ?? "consent",
-      visibility: options?.visibility ?? "private",
-      piiTier: options?.piiTier ?? "moderate",
-      tags: options?.tags,
-    },
-    provider: options?.provider ?? "kimi",
+    metadata,
+    provider,
     model: options?.model,
-    // Cast to any: SDK accepts partner: profiles at runtime (ADR-0017)
-    profile: profile as unknown as "essential" | "extended" | "full",
+    profile: profile as "essential" | "extended" | "full",
   })) as EdmArtifact;
 
   return {
-    edmArtifact: artifact,
-    confidence: artifact.telemetry.entry_confidence,
-    model: artifact.telemetry.extraction_model ?? "unknown",
-    profile,
+    edmArtifact: sdkArtifact,
+    confidence: sdkArtifact.telemetry.entry_confidence,
+    model: sdkArtifact.telemetry.extraction_model ?? "unknown",
+    profile: profile as EdmProfile,
   };
 }
 
