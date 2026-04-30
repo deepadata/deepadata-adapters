@@ -12,6 +12,12 @@ EDM enrichment adapters for memory platforms.
 | [@deepadata/zep-adapter](./packages/zep) | EDM enrichment for Zep | `npm install @deepadata/zep-adapter` |
 | [@deepadata/langchain-adapter](./packages/langchain) | EDM enrichment for LangChain | `npm install @deepadata/langchain-adapter` |
 
+## Planned adapters
+
+| Target | Description | Status |
+|--------|-------------|--------|
+| Mercury Agent ([cosmicstack-labs/mercury-agent](https://github.com/cosmicstack-labs/mercury-agent)) | Write `.ddna` artifacts alongside Mercury's SQLite Second Brain records — significance layer over their soul-driven memory (soul.md / persona.md). | Scoped, not started |
+
 ## Architecture
 
 All adapters follow the **enrichment layer pattern**:
