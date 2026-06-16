@@ -30,7 +30,7 @@ describe("Mem0 Adapter", () => {
       const mockResponse = {
         data: {
           activation_id: "test-activation-123",
-          arc_types: ["growth", "healing"],
+          arc_types: ["transformation", "reconciliation"],
           primary_domain: "Gravity",
           field_filters: {
             emotional_weight: { gte: 0.7 },
